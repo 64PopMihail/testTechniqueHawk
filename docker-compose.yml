@@ -1,0 +1,17 @@
+services:
+  php:
+    container_name: php
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - .:/srv/www:cached
+      - ./vendor:/srv/www/vendor:cached
+      - ./node_modules:/srv/www/node_modules:cached
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - php
+    volumes:
+      - ./public:/srv/www/public:cached
